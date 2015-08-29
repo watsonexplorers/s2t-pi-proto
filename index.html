@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h3>A demonstration of how to access a TEXTAREA element</h3>
+
+Address:<br>
+<textarea id="myTextarea">
+342 Alvin Road
+Ducksburg</textarea>
+
+<p>Click the button to get the content of the text area.</p>
+
+<button type="button" onclick="myFunction()">Try it</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var x = document.getElementById("myTextarea").value;
+    document.getElementById("demo").innerHTML = x;
+    var watson = require('watson-developer-cloud');
+
+    var personality_insights = watson.personality_insights({
+      username: '4ecf51b2-0338-42d9-81c2-2578cd286ac9',
+      password: '2cLAKdHxKm10',
+      version: 'v2'
+    });
+
+    personality_insights.profile({
+      text: x,
+      language: 'en' },
+      function (err, response) {
+        if (err)
+          console.log('error:', err);
+        else
+          console.log(JSON.stringify(response, null, 2));
+    });
+}
+</script>
+
+</body>
+</html>
