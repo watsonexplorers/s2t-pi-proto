@@ -24,7 +24,10 @@ var express         = require('express'),
     path            = require('path'),
     // environmental variable points to demo's json config file
     extend          = require('util')._extend,
-    bodyparser      = require('body-parser');
+    bodyParser      = require('body-parser');
+    
+// Setup static public directory
+app.use(express.static(path.join(__dirname , './public')));
 
 // For local development, put username and password in config
 // or store in your environment
@@ -35,25 +38,33 @@ var config = {
   password: 'w47iPeTyKJ8L'
 };
 //Patrick - begin
-//app.use('body-parser');
+//app.use('bodyParser');
+// create application/json parser
+var jsonParser = bodyParser.json();
 app.set('view engine', 'jade');
 app.get('/', function (req, res) {
  res.render('index');
 });
 
-var credentialsPI = extend({
+var credentials = extend({
   version: 'v2',
   username: '4ecf51b2-0338-42d9-81c2-2578cd286ac9',
   password: '2cLAKdHxKm10'
 }, bluemix.getServiceCreds('personality_insights')); // VCAP_SERVICES
 
 // Create the service wrapper
-var personalityInsights = watson.personality_insights(credentialsPI);
+var personalityInsights = watson.personality_insights(credentials);
+console.log('credentialsPI:', JSON.stringify(credentials));
+if (!process.env.VCAP_SERVICES) {
+  app.use(errorhandler());
+}
 
 // 1. Check if we have a captcha and reset the limit
 // 2. pass the request to the rate limit
-app.post('/', function(req, res, next) {
+app.post('/', jsonParser, function(req, res, next) {
+
     personalityInsights.profile(req.body, function(err, profile) {
+console.log('function req:', JSON.stringify(req.body));
       if (err)
         return next(err);
       else
@@ -64,14 +75,13 @@ app.post('/', function(req, res, next) {
 
 
 // if bluemix credentials exists, then override local
-var credentials = extend(config, bluemix.getServiceCreds('speech_to_text'));
-var authorization = watson.authorization(credentials);
+//var credentials = extend(config, bluemix.getServiceCreds('speech_to_text'));
+//var authorization = watson.authorization(credentials);
+//console.log('credentialss2t:', JSON.stringify(credentials));
 
-// Setup static public directory
-app.use(express.static(path.join(__dirname , './public')));
 
 // Get token from Watson using your credentials
-app.get('/token', function(req, res) {
+/*app.get('/token', function(req, res) {
   authorization.getToken({url: credentials.url}, function(err, token) {
     if (err) {
       console.log('error:', err);
@@ -81,7 +91,7 @@ app.get('/token', function(req, res) {
     res.send(token);
   });
 });
-
+*/
 // Add error handling in dev
 if (!process.env.VCAP_SERVICES) {
   app.use(errorhandler());
