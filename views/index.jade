@@ -49,11 +49,7 @@ html(lang='en')
               ul#dropdownMenuList.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
                   div.form-group.row.buttons-container
         //PI buttons
-        .row         
-            div.col-lg-4.col-xs-4
-                button.btn.btn-block.clear-btn(type='button') Clear
-            div.col-lg-4.col-lg-push-4.col-xs-4.col-xs-push-4
-                button.btn.btn-block.analysis-btn(type='button') Analyze
+        .row
         p
         //textarea.content(id='anotherTextArea', name='textAlso')
         .row
@@ -99,16 +95,23 @@ html(lang='en')
                         #notificationAlert
                           span#notificationMessage
                           a#notificationClose.pull-right(href='#') ×
-                    .form-group.row.tabpanel-row
+                    //.form-group.row.tabpanel-row
+                    div.form-group.row.tabpanel-row
                       .col-lg-12
                         .tab-content
                           #home2.tab-pane.active(role='tabpanel')
                             //textarea#resultsText(readonly='')
-                            textarea.content.form-control(id= 'myTextArea', rows='12', required='true', name='text'
+                            textarea.content.form-control(rows='12', required='true', name='text'
                             placeholder='Please enter the text to analyze (minimum of 100 words)...')
                               |#{content}
                           //#profile2.tab-pane(role='tabpanel')
-                            //textarea#resultsJSON(readonly='')
+                            //textarea#resultsJSON(readonly='') 
+                    div.form-group.row.buttons-container
+                      div.col-lg-4.col-xs-4
+                        button.btn.btn-block.clear-btn(type='button') Clear
+                      div.col-lg-4.col-lg-push-4.col-xs-4.col-xs-push-4
+                        button.btn.btn-block.analysis-btn(type='button') Analyze
+                            
         //PI results
         .row
             div.col-lg-6.col-md-12.col-xs-12

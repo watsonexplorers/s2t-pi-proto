@@ -25,6 +25,17 @@ var express         = require('express'),
     // environmental variable points to demo's json config file
     extend          = require('util')._extend,
     bodyParser      = require('body-parser');
+
+var DEBUG = (function(){
+    var timestamp = function(){};
+    timestamp.toString = function(){
+        return "[DEBUG " + (new Date).toLocaleTimeString() + "]";    
+    };
+
+    return {
+        log: console.log.bind(console, '%s', timestamp)
+    }
+})();
     
 // Setup static public directory
 app.use(express.static(path.join(__dirname , './public')));
@@ -41,6 +52,7 @@ var config = {
 //app.use('bodyParser');
 // create application/json parser
 var jsonParser = bodyParser.json();
+
 app.set('view engine', 'jade');
 app.get('/', function (req, res) {
  res.render('index');
@@ -54,17 +66,17 @@ var credentials = extend({
 
 // Create the service wrapper
 var personalityInsights = watson.personality_insights(credentials);
-console.log('credentialsPI:', JSON.stringify(credentials));
+DEBUG.log('credentialsPI:', JSON.stringify(credentials));
 if (!process.env.VCAP_SERVICES) {
   app.use(errorhandler());
 }
 
 // 1. Check if we have a captcha and reset the limit
 // 2. pass the request to the rate limit
-app.post('/', jsonParser, function(req, res, next) {
+app.post('/', function(req, res, next) {
 
     personalityInsights.profile(req.body, function(err, profile) {
-console.log('function req:', JSON.stringify(req.body));
+DEBUG.log('function req:', JSON.stringify(req.body));
       if (err)
         return next(err);
       else
