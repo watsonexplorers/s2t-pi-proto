@@ -70,7 +70,7 @@ $(document).ready(function() {
       type: 'POST',
       data: {
         text: $content.val(),
-        language: language
+        language: 'en'
       },
       url: '/',
       dataType: 'json',

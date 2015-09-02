@@ -49,7 +49,7 @@ var config = {
   password: 'w47iPeTyKJ8L'
 };
 //Patrick - begin
-//app.use('bodyParser');
+app.use(bodyParser());
 // create application/json parser
 var jsonParser = bodyParser.json();
 
@@ -66,7 +66,7 @@ var credentials = extend({
 
 // Create the service wrapper
 var personalityInsights = watson.personality_insights(credentials);
-DEBUG.log('credentialsPI:', JSON.stringify(credentials));
+//DEBUG.log('credentialsPI:', JSON.stringify(credentials));
 if (!process.env.VCAP_SERVICES) {
   app.use(errorhandler());
 }
@@ -74,7 +74,6 @@ if (!process.env.VCAP_SERVICES) {
 // 1. Check if we have a captcha and reset the limit
 // 2. pass the request to the rate limit
 app.post('/', function(req, res, next) {
-
     personalityInsights.profile(req.body, function(err, profile) {
 DEBUG.log('function req:', JSON.stringify(req.body));
       if (err)

@@ -101,9 +101,9 @@ html(lang='en')
                         .tab-content
                           #home2.tab-pane.active(role='tabpanel')
                             //textarea#resultsText(readonly='')
-                            textarea.content.form-control(rows='12', required='true', name='text'
+                            textarea.content.form-control(rows='12', required='true', name='text',
                             placeholder='Please enter the text to analyze (minimum of 100 words)...')
-                              |#{content}
+                            |#{content}
                           //#profile2.tab-pane(role='tabpanel')
                             //textarea#resultsJSON(readonly='') 
                     div.form-group.row.buttons-container
