@@ -4,13 +4,15 @@ html(lang='en')
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    title Speech to Text
+    title S2T to PI
     link(href='css/watson-bootstrap-style.css', rel='stylesheet')
     link(href='css/browser-compatibility.css', rel='stylesheet')
     link(href='css/demo-stt.css', rel='stylesheet')
     link(rel='stylesheet', href='/css/watson-bootstrap-dark.css')
     link(rel='stylesheet', href='/css/banner.css')
     link(rel='stylesheet', href='/css/style.css')
+    script(type='text/javascript', src='/js/wordcounter.js')
+
   body
     .header
       .container
@@ -19,7 +21,7 @@ html(lang='en')
     .container
       .row
         .col-lg-12.col-md-12.col-sm-12
-          h2 Transcribe Audio
+          h2 Speech to Text to Personality Insight
           .col-lg-8.col-md-12.col-sm-12
             p.help-block(style='padding-right: 3em;')
               | Use your microphone (compatible only with 
@@ -27,6 +29,12 @@ html(lang='en')
               |  and 
               a(href='https://www.mozilla.org/en-US/firefox/new/') Mozilla Firefox
               | ), upload pre-recorded audio (WAV containing uncompressed audio or FLAC file formats), drag and drop recorded audio onto the page, or use the audio samples provided. The returned text includes metadata that provides the timestamps for start and end times of individual words, confidence scores behind those words, and alternative hypotheses for phrases.
+              p
+              | Additionally this app will ingest the transcription and provide a personality insight of the transcription by pressing the Analyze button.
+              p
+              | The text box is pre-populated with text from a speech President Johnson gave. You need to clear it out before you transcribe some wav file or use the microphone. Most of the code for this app came from 
+              a(href='https://github.com/watson-developer-cloud') IBM Watson Developer Cloud
+              | . This app is a merge of the Personality Insights app and the Speech to Text app. NOTE: Neither sample .wav file has enough text for Watson to perform a PI on.
           .col-lg-4.col-md-12.col-sm-12
             .opt-box
               h6
@@ -48,10 +56,6 @@ html(lang='en')
                 span.caret
               ul#dropdownMenuList.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
                   div.form-group.row.buttons-container
-        //PI buttons
-        .row
-        p
-        //textarea.content(id='anotherTextArea', name='textAlso')
         .row
           .col-lg-12.col-md-12.col-sm-12
             .audioParent
@@ -82,7 +86,7 @@ html(lang='en')
                     li.active(role='presentation')
                       a(href='#home2', aria-controls='home', role='tab', data-toggle='tab') Text
                     li(role='presentation')
-                      a(href='#profile2', aria-controls='profile', role='tab', data-toggle='tab') JSON
+                      //a(href='#profile2', aria-controls='profile', role='tab', data-toggle='tab') JSON
                   .hr-tab
                   fieldset
                     .row.error-row
@@ -101,7 +105,7 @@ html(lang='en')
                         .tab-content
                           #home2.tab-pane.active(role='tabpanel')
                             //textarea#resultsText(readonly='')
-                            textarea.content.form-control(rows='12', required='true', name='text',
+                            textarea#resultsText.content.form-control(rows='12', required='true', name='text',
                             placeholder='Please enter the text to analyze (minimum of 100 words)...')
                             |#{content}
                           //#profile2.tab-pane(role='tabpanel')
@@ -111,11 +115,13 @@ html(lang='en')
                         button.btn.btn-block.clear-btn(type='button') Clear
                       div.col-lg-4.col-lg-push-4.col-xs-4.col-xs-push-4
                         button.btn.btn-block.analysis-btn(type='button') Analyze
-                            
+                     div.form-group.row.word-count
+                       | Words:
+                       span#wordCount
+
         //PI results
         .row
             div.col-lg-6.col-md-12.col-xs-12
-               p watson logo and results
                 div.form-group.row.loading.text-center.loading(style='display:none;')
                   h2 &nbsp;
                   img(src='images/watson.gif')
@@ -155,20 +161,20 @@ html(lang='en')
               .col-lg-12.col-md-12.col-sm-12
                 br
                 br
-      input#fileUploadDialog(style='display:none', type='file')
-      script(src='https://code.jquery.com/jquery-1.11.3.min.js')
-      script.
-        window.jQuery || document.write('<script src="js/jquery-1.11.3.min.js"><\\/script>')
-      script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
-      script.
-        (typeof $().emulateTransitionEnd == 'function')|| document.write('<script src="js/bootstrap-3.3.5.min.js"><\\/script>')
-      script(src='js/main.js')
+    input#fileUploadDialog(style='display:none', type='file')
+    script(src='https://code.jquery.com/jquery-1.11.3.min.js')
+    script.
+      window.jQuery || document.write('<script src="js/jquery-1.11.3.min.js"><\\/script>')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js')
+    script.
+      (typeof $().emulateTransitionEnd == 'function')|| document.write('<script src="js/bootstrap-3.3.5.min.js"><\\/script>')
+    script(src='js/main.js')
     script(type='text/javascript', src='/js/d3.v2.min.js')
     script(type='text/javascript', src='/js/demo.js')
     script(type='text/javascript', src='/js/personality.js')
     script(type='text/javascript', src='/js/string-utils.js')
     script(type='text/javascript', src='/js/i18n.js')
     script(type='text/javascript', src='/js/textsummary.js')
+
     script.
         textSummary.init('json');
-

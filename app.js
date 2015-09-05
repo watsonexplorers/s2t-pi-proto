@@ -12,6 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * Enhancements made by patrick@tobha.com for Personality Insight of 
+ * speech transcription. 9/2/2015
  */
 
 'use strict';
@@ -25,6 +28,7 @@ var express         = require('express'),
     // environmental variable points to demo's json config file
     extend          = require('util')._extend,
     bodyParser      = require('body-parser');
+    wordcounter     = require('countable');
 
 var DEBUG = (function(){
     var timestamp = function(){};
@@ -75,7 +79,7 @@ if (!process.env.VCAP_SERVICES) {
 // 2. pass the request to the rate limit
 app.post('/', function(req, res, next) {
     personalityInsights.profile(req.body, function(err, profile) {
-DEBUG.log('function req:', JSON.stringify(req.body));
+//DEBUG.log('function req:', JSON.stringify(req.body));
       if (err)
         return next(err);
       else
@@ -86,13 +90,13 @@ DEBUG.log('function req:', JSON.stringify(req.body));
 
 
 // if bluemix credentials exists, then override local
-//var credentials = extend(config, bluemix.getServiceCreds('speech_to_text'));
-//var authorization = watson.authorization(credentials);
-//console.log('credentialss2t:', JSON.stringify(credentials));
+var credentials = extend(config, bluemix.getServiceCreds('speech_to_text'));
+var authorization = watson.authorization(credentials);
+console.log('credentialss2t:', JSON.stringify(credentials));
 
 
 // Get token from Watson using your credentials
-/*app.get('/token', function(req, res) {
+app.get('/token', function(req, res) {
   authorization.getToken({url: credentials.url}, function(err, token) {
     if (err) {
       console.log('error:', err);
@@ -102,7 +106,7 @@ DEBUG.log('function req:', JSON.stringify(req.body));
     res.send(token);
   });
 });
-*/
+
 // Add error handling in dev
 if (!process.env.VCAP_SERVICES) {
   app.use(errorhandler());
