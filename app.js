@@ -28,7 +28,7 @@ var express         = require('express'),
     // environmental variable points to demo's json config file
     extend          = require('util')._extend,
     bodyParser      = require('body-parser');
-    wordcounter     = require('countable');
+    //wordcounter     = require('countable');
 
 var DEBUG = (function(){
     var timestamp = function(){};
