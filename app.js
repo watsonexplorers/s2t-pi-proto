@@ -49,8 +49,8 @@ app.use(express.static(path.join(__dirname , './public')));
 var config = {
   version: 'v1',
   url: 'https://stream.watsonplatform.net/speech-to-text/api',
-  username: '69a0fc58-aec5-461a-a71e-e146d262dd6d',
-  password: 'w47iPeTyKJ8L'
+  username: '',
+  password: ''
 };
 //Patrick - begin
 app.use(bodyParser());
